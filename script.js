@@ -8,7 +8,7 @@ class User {
     }
     play(money) {
         this.money -= money;
-        if (this.mashine.__proto__.constructor.name === 'GameMashine') {
+        if (this.mashine instanceof GameMashine) {
             // потрібно вибрати автомат user.mashine;
             money <= this.money ? (this.money += this.mashine.game(money)) : alert('Вибачте у гравця не достатньо коштів');
         } else {
@@ -95,7 +95,7 @@ class SuperAdmin extends User {
         return casino;
     }
     newGameMashine(number) {
-        if (number <= this.money && this.casinoForNewMashine.__proto__.constructor.name === 'Casino') {
+        if (number <= this.money && this.casinoForNewMashine instanceof Casino) {
             //також потрібно вибрати admin.casinoForNewMashine=... для додавання машини в казино
             let mashine = new GameMashine(+number);
             this.money -= number;
@@ -106,7 +106,7 @@ class SuperAdmin extends User {
         }
     }
     tribute(number) {
-        if (this.casinoForTribute.__proto__.constructor.name === 'Casino') {
+        if (this.casinoForTribute instanceof Casino) {
             //також потрібно вибрати admin.casinoForTribute=... для збирання грошей з машин в казино
             let sortArrMashine = [];
             let lastStep;
@@ -134,7 +134,7 @@ class SuperAdmin extends User {
         }
     }
     addMoneyForCasino(numberCas, casino) {
-        if (casino.__proto__.constructor.name === 'Casino') {
+        if (casino instanceof Casino) {
             casino.addMoney(numberCas);
             this.money -= numberCas;
         } else {
@@ -142,7 +142,7 @@ class SuperAdmin extends User {
         }
     }
     addMoneyForMashine(numberMash, mashine) {
-        if (mashine.__proto__.constructor.name === 'GameMashine') {
+        if (mashine instanceof GameMashine) {
             mashine.addMoney(numberMash);
             this.money -= numberMash;
         } else {
@@ -150,7 +150,7 @@ class SuperAdmin extends User {
         }
     }
     deleteMashine(casino, number) {
-        if (casino.__proto__.constructor.name !== 'Casino') return;
+        if (!casino instanceof Casino) return;
         let dolar = casino.gameMashines.splice(number - 1, 1);
         casino.gameMashines.forEach((element) => {
             element += dolar / casino.gameMashines.length;
